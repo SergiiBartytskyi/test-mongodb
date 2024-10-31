@@ -52,19 +52,19 @@ export const getStudentById = async (studentId) => {
   return student;
 };
 
-export const createStudent = async (payload) => {
-  const student = await StudentsCollection.create(payload);
+export const createStudent = (payload) => {
+  const student = StudentsCollection.create(payload);
   return student;
 };
 
-export const updateStudent = async (studentId, payload, options = {}) => {
+export const updateStudent = async ({ _id, payload, options = {} }) => {
   const rawResult = await StudentsCollection.findOneAndUpdate(
-    { _id: studentId },
+    { _id },
     payload,
     {
+      ...options,
       new: true,
       includeResultMetadata: true,
-      ...options,
     },
   );
 
@@ -76,7 +76,7 @@ export const updateStudent = async (studentId, payload, options = {}) => {
   };
 };
 
-export const deleteStudent = async (studentId) => {
-  const student = await StudentsCollection.findOneAndDelete({ _id: studentId });
+export const deleteStudent = (_id) => {
+  const student = StudentsCollection.findOneAndDelete({ _id });
   return student;
 };
